@@ -17,7 +17,7 @@
 
 ### Description
 
-The project creates an information card by retrieving user information from the random user appv2
+
 
 ### Project Skeleton
 
