@@ -1,24 +1,28 @@
-import React, { useContext } from "react";
-import { signIn, signInWithGoogle, auth } from "../auth/firebase";
+import React from "react";
 import TextField from "@mui/material//TextField";
 import Box from "@mui/material//Box";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { forgotPassword, signIn, signUpWithGoogle } from "../auth/firebase";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
-  const { login, setLogin, setUser, user } = useContext(AuthContext);
-  const eventHandleChange = (e) => {
-    const log = { ...login, [e.target.type]: e.target.value };
-    setLogin(log);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signIn(email, password, navigate);
+    console.log(email, password);
   };
-  // console.log("login", login);
-  const eventHandleLogin = (e) => {
-    signIn(user.email, user.password);
-    setUser(auth);
-    // console.log("user", user);
+
+  const handleGoogleProvider = () => {
+    signUpWithGoogle(navigate);
   };
 
   return (
@@ -68,8 +72,13 @@ const Login = () => {
               justifyContent: "center",
             }}
           >
-            <Typography variant="h3" align="center" m={1}>
-              LOGIN
+            <Typography
+              variant="h3"
+              align="center"
+              sx={{ color: "#ff9800" }}
+              m={1}
+            >
+              Sign In
             </Typography>
             <TextField
               id="outlined-basic"
@@ -78,7 +87,8 @@ const Login = () => {
               type="email"
               placeholder="Enter Your Email Adress..."
               margin="normal"
-              onChange={eventHandleChange}
+              color="warning"
+              onChange={(e) => setEmail(e.target.value)}
             />
 
             <TextField
@@ -88,22 +98,52 @@ const Login = () => {
               type="password"
               placeholder="Enter Your Password..."
               margin="normal"
-              onChange={eventHandleChange}
+              color="warning"
+              onChange={(e) => setPassword(e.target.value)}
             />
-            {/* <Typography onClick={() => ForgetEmail}>Forget Email?</Typography> */}
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+
+                fontWeight: "bolder",
+              }}
+            >
+              <Button
+                type="button"
+                onClick={() => forgotPassword(email)}
+                color="warning"
+              >
+                Forgot Password
+              </Button>
+              <Button onClick={() => navigate("/register")} color="warning">
+                Sign Up
+              </Button>
+            </div>
             <Button
               variant="contained"
+              color="warning"
               sx={{ mt: 2 }}
-              onClick={eventHandleLogin}
+              onClick={handleSubmit}
             >
-              Sign In
+              Login
             </Button>
             <Button
               variant="contained"
+              color="warning"
               sx={{ mt: 2 }}
-              onClick={signInWithGoogle}
+              onClick={handleGoogleProvider}
             >
-              Sign In With Google
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <FcGoogle size={30} style={{ marginRight: "0.4rem" }} />
+                <span>Continue With Google</span>
+              </div>
             </Button>
           </Box>
         </Grid>

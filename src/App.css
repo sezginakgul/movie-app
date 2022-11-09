@@ -1,7 +1,3 @@
-.App {
-  text-align: center;
-}
-
 .main {
   background: url(https://images.hdqwalls.com/wallpapers/beyond-the-great-valley-4k-u8.jpg);
   background-position: center;
@@ -17,4 +13,47 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+}
+
+.details {
+  background: url(https://images.hdqwalls.com/wallpapers/beyond-the-great-valley-4k-u8.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  padding: 2rem 0 2rem 0;
+}
+
+@media (max-width: 450px) {
+  .title {
+    display: none;
+  }
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.tag {
+  border-radius: 5px;
+  padding: 0.7rem;
+  font-weight: bold;
+  width: 3rem;
+  text-align: center;
+}
+
+.tag.green {
+  background-color: #1b5e20;
+}
+
+.tag.orange {
+  background-color: #f57f17;
+}
+
+.tag.red {
+  background-color: #7f0000;
+}
+
+.searchBtn:active {
+  color: #eee;
 }

@@ -1,26 +1,26 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import Login from "../pages/Login";
 import Main from "../pages/Main";
-import Register from "../pages/Register";
 import MovieDetail from "../pages/MovieDetail";
-import Navbar from "../components/Navbar";
+import Register from "../pages/Register";
 import PrivateRouter from "./PrivateRouter";
 
-const Router = () => {
+const AppRouter = () => {
   return (
-    <>
+    <BrowserRouter>
       <Navbar />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/detail" element={<PrivateRouter />}>
+        <Route path="/register" element={<Register />} />
+        <Route path="/details/:id" element={<PrivateRouter />}>
           <Route path="" element={<MovieDetail />} />
         </Route>
       </Routes>
-    </>
+    </BrowserRouter>
   );
 };
 
-export default Router;
+export default AppRouter;

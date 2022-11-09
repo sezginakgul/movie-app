@@ -1,32 +1,47 @@
-import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material//TextField";
 import Box from "@mui/material//Box";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import { AuthContext } from "../context/AuthContext";
-import { registerUser } from "../auth/firebase";
+import { createUser, signUpWithGoogle } from "../auth/firebase";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
-  const { register, setRegister, setUser } = useContext(AuthContext);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const eventHandleChange = (e) => {
-    const log = { ...register, [e.target.name]: e.target.value };
-    setRegister(log);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const displayName = `${firstName} ${lastName}`;
+    createUser(email, password, navigate, displayName);
+    console.log(firstName, lastName);
   };
 
-  const onHandleSubmit = () => {
-    registerUser(register.email, register.password);
-    setUser(register);
-    setRegister({
-      email: "",
-      password: "",
-      displayName: "",
-    });
+  const handleGoogleProvider = () => {
+    signUpWithGoogle(navigate);
   };
 
-  // console.log("register:", register);
+  //   const eventHandleChange = (e) => {
+  //     const log = { ...register, [e.target.name]: e.target.value };
+  //     setRegister(log);
+  //   };
+
+  //   const onHandleSubmit = () => {
+  //     registerUser(register.email, register.password);
+  //     setUser(register);
+  //     setRegister({
+  //       email: "",
+  //       password: "",
+  //       displayName: "",
+  //     });
+  //   };
+
   return (
     <Container
       maxWidth={"xxl"}
@@ -74,19 +89,36 @@ const Register = () => {
               justifyContent: "center",
             }}
           >
-            <Typography variant="h3" align="center" m={1}>
-              REGISTER
+            <Typography
+              variant="h3"
+              align="center"
+              sx={{ color: "#ff9800" }}
+              m={1}
+            >
+              Sign Up
             </Typography>
             <TextField
               id="outlined-basic"
-              label="Name"
+              label="First Name"
               variant="outlined"
               type="text"
-              placeholder="Sign Up Your Name..."
+              placeholder="Enter Your First Name..."
               margin="normal"
               name="displayName"
-              onChange={eventHandleChange}
-              value={register?.displayName}
+              color="warning"
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+
+            <TextField
+              id="outlined-basic"
+              label="Last Name"
+              variant="outlined"
+              type="text"
+              placeholder="Enter Your Last Name..."
+              margin="normal"
+              name="displayName"
+              color="warning"
+              onChange={(e) => setLastName(e.target.value)}
             />
 
             <TextField
@@ -94,11 +126,11 @@ const Register = () => {
               label="Email"
               variant="outlined"
               type="email"
-              placeholder="Sign Up Your Email Adress..."
+              placeholder="Enter Your Email Adress..."
               margin="normal"
               name="email"
-              onChange={eventHandleChange}
-              value={register?.email}
+              color="warning"
+              onChange={(e) => setEmail(e.target.value)}
             />
 
             <TextField
@@ -106,14 +138,35 @@ const Register = () => {
               label="Password"
               variant="outlined"
               type="password"
-              placeholder="Sign Up Your Password..."
+              placeholder="Enter Your Password..."
               margin="normal"
               name="password"
-              onChange={eventHandleChange}
-              value={register?.password}
+              color="warning"
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <Button variant="contained" sx={{ mt: 2 }} onClick={onHandleSubmit}>
-              Sign Up
+            <Button
+              variant="contained"
+              color="warning"
+              sx={{ mt: 2 }}
+              onClick={handleSubmit}
+            >
+              Register
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+              sx={{ mt: 2 }}
+              onClick={handleGoogleProvider}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <FcGoogle size={30} style={{ marginRight: "0.4rem" }} />
+                <span>Continue With Google</span>
+              </div>
             </Button>
           </Box>
         </Grid>
