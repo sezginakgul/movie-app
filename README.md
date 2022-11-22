@@ -62,10 +62,10 @@ movie-app (folder)
 
 ### Built with
 
-- REACT.JS
-- JAVASCRİPT
-- HTML5
-- CSS3
+- React.js
+- Javascript
+- Html5
+- Css3
 - Material UI
 - Firebase
 - Context API
