@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material//TextField";
 import Box from "@mui/material//Box";
@@ -5,8 +7,6 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { createUser, signUpWithGoogle } from "../auth/firebase";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
@@ -20,32 +20,15 @@ const Register = () => {
     e.preventDefault();
     const displayName = `${firstName} ${lastName}`;
     createUser(email, password, navigate, displayName);
-    console.log(firstName, lastName);
   };
 
   const handleGoogleProvider = () => {
     signUpWithGoogle(navigate);
   };
 
-  //   const eventHandleChange = (e) => {
-  //     const log = { ...register, [e.target.name]: e.target.value };
-  //     setRegister(log);
-  //   };
-
-  //   const onHandleSubmit = () => {
-  //     registerUser(register.email, register.password);
-  //     setUser(register);
-  //     setRegister({
-  //       email: "",
-  //       password: "",
-  //       displayName: "",
-  //     });
-  //   };
-
   return (
     <Container
       maxWidth={"xxl"}
-      className="login"
       sx={{
         mt: 2,
         height: "90vh",

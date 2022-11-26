@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material//TextField";
 import Box from "@mui/material//Box";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { forgotPassword, signIn, signUpWithGoogle } from "../auth/firebase";
 import { FcGoogle } from "react-icons/fc";
 
@@ -18,7 +17,6 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     signIn(email, password, navigate);
-    console.log(email, password);
   };
 
   const handleGoogleProvider = () => {
@@ -28,7 +26,6 @@ const Login = () => {
   return (
     <Container
       maxWidth={"xxl"}
-      className="login"
       sx={{
         mt: 2,
         height: "90vh",
@@ -106,7 +103,6 @@ const Login = () => {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-
                 fontWeight: "bolder",
               }}
             >

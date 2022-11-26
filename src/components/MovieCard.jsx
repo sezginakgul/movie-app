@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useLoginContext } from "../context/AuthContextProvider";
 import { toastWarnNotify } from "../helpers/ToastNotify";
@@ -22,15 +22,12 @@ const MovieCard = ({ poster_path, title, vote_average, id }) => {
   };
   return (
     <div style={{ margin: "auto" }}>
-      <Box
-        key={id}
+      <Paper
+        elevation={15}
         sx={{
-          margin: "1rem auto",
-          border: "2px solid white",
+          marginTop: "1rem",
           borderRadius: "10px",
-          boxShadow: "0 0 10px white",
-          padding: "1rem",
-          color: "#eee",
+          padding: "0.8rem",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -40,54 +37,43 @@ const MovieCard = ({ poster_path, title, vote_average, id }) => {
         <img
           src={poster_path ? IMG_API + poster_path : defaultImage}
           alt="movie-card"
-          width="300px"
-          style={{ borderRadius: "15px", height: "430px" }}
+          style={{ width: "100%", borderRadius: "15px" }}
         />
         <Box
-          sx={{ display: "flex", marginTop: "0.8rem", padding: "0.5rem 1rem" }}
+          sx={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: "0.8rem",
+          }}
         >
-          <div
-            style={{
-              width: "280px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-around",
-            }}
-          >
-            <div style={{ height: "65px" }}>
-              <Typography
-                variant="h6"
-                sx={{ width: "240px", fontSize: "1.4rem" }}
-              >
-                Overview
-              </Typography>
-              <Typography variant="p" component="h2" sx={{ fontSize: "1rem" }}>
-                {title}
-              </Typography>
-            </div>
-            <div>
-              {currentUser && (
-                <span className={`tag ${getVoteClass(vote_average)}`}>
-                  {vote_average.toFixed(1)}
-                </span>
-              )}
-            </div>
-          </div>
+          <Box>
+            <Typography variant="h6" color="primary">
+              Overview
+            </Typography>
+            <Typography variant="p">{title}</Typography>
+          </Box>
+          <Box>
+            {currentUser && (
+              <span className={`tag ${getVoteClass(vote_average)}`}>
+                {vote_average.toFixed(1)}
+              </span>
+            )}
+          </Box>
         </Box>
-        <Box sx={{ textAlign: "center" }}>
-          <Button
-            variant="contained"
-            color="success"
-            sx={{ mt: 2 }}
-            onClick={() => {
-              navigate("details/" + id);
-              !currentUser && toastWarnNotify("Please log in to see details");
-            }}
-          >
-            View Detail
-          </Button>
-        </Box>
-      </Box>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ mt: 2, justifyContent: "center" }}
+          onClick={() => {
+            navigate("details/" + id);
+            !currentUser && toastWarnNotify("Please log in to see details");
+          }}
+        >
+          View Detail
+        </Button>
+      </Paper>
     </div>
   );
 };

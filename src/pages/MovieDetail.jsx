@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import Typography from "@mui/material/Typography";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Card from "@mui/material/Card";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const MovieDetail = () => {
   const navigate = useNavigate();
   const [movieDetails, setMovieDetails] = useState("");
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
   const {
@@ -32,94 +32,121 @@ const MovieDetail = () => {
     "https://images.unsplash.com/photo-1581905764498-f1b60bae941a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80";
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(movieDetailBaseUrl)
       .then((res) => setMovieDetails(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
   }, [movieDetailBaseUrl]);
 
   return (
-    <div className="details">
-      <Card
-        sx={{
-          width: "430px",
-          margin: "0 auto ",
-          backgroundColor: "transparent",
-          color: "white",
-        }}
-      >
-        <CardMedia
-          component="img"
-          image={poster_path ? baseImageUrl + poster_path : defaultImage}
-          alt="green iguana"
+    <div className="details" style={{ padding: "0.7rem" }}>
+      {loading && (
+        <Box
           sx={{
-            objectFit: "contain",
-            maxHeight: "600px",
-            marginTop: "0.8rem",
+            width: "100vw",
+            height: "82.1vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        />
-        <CardContent sx={{ textAlign: "center" }}>
-          <hr style={{ opacity: 0 }} />
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            sx={{ backgroundColor: "black" }}
-          >
-            {original_title}
-          </Typography>
-          <Typography variant="subtitle1" sx={{ backgroundColor: "black" }}>
-            {tagline}
-          </Typography>
-          <hr style={{ opacity: 0 }} />
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{ backgroundColor: "black" }}
-          >
-            Overview
-          </Typography>
-          <Typography variant="subtitle1" sx={{ backgroundColor: "black" }}>
-            {overview}
-          </Typography>
-          <hr style={{ opacity: 0 }} />
-          <Typography variant="subtitle1" sx={{ backgroundColor: "black" }}>
-            Popularity: {popularity}
-          </Typography>
-          <hr style={{ opacity: 0 }} />
-          <Typography variant="subtitle1" sx={{ backgroundColor: "black" }}>
-            Relase Date: {release_date}
-          </Typography>
-          <hr style={{ opacity: 0 }} />
-          <Typography variant="subtitle1" sx={{ backgroundColor: "black" }}>
-            Rate: {vote_average}
-          </Typography>
-          <hr style={{ opacity: 0 }} />
-          <Typography variant="subtitle1" sx={{ backgroundColor: "black" }}>
-            Total Vote: {vote_count}
-          </Typography>
-          <hr style={{ opacity: 0 }} />
-          {homepage && (
-            <Typography variant="subtitle1" sx={{ backgroundColor: "black" }}>
-              Home Page:{" "}
-              <a href={homepage} style={{ color: "white" }}>
-                {homepage}
-              </a>
+        >
+          <CircularProgress color="warning" size={70} />
+        </Box>
+      )}
+      {!loading && (
+        <Paper
+          elevation={15}
+          sx={{
+            marginTop: "1rem",
+            borderRadius: "10px",
+            padding: "0.8rem",
+            maxWidth: "600px",
+            mx: "auto",
+          }}
+        >
+          <img
+            src={poster_path ? baseImageUrl + poster_path : defaultImage}
+            alt="movie-card"
+            style={{ width: "100%", borderRadius: "15px" }}
+          />
+          <Box sx={{ padding: "1rem" }}>
+            <hr color="secondary" />
+
+            <Typography variant="h6" component="div">
+              {original_title}
             </Typography>
-          )}
-          <hr style={{ opacity: 0 }} />
-        </CardContent>
-        <CardActions sx={{ textAlign: "center" }}>
-          <Button
-            size="small"
-            variant="contained"
-            onClick={() => navigate(-1)}
-            sx={{ width: "80px", margin: "0 auto" }}
-          >
-            Go Back
-          </Button>
-        </CardActions>
-      </Card>
+
+            <Typography variant="subtitle1">{tagline}</Typography>
+            <hr color="secondary" />
+            <Typography variant="h6" component="div" mt={1}>
+              Overview
+            </Typography>
+
+            <Typography variant="subtitle1" component="div">
+              {overview}
+            </Typography>
+
+            <hr color="secondary" />
+
+            <Typography variant="subtitle1" component="div" my={1}>
+              Popularity: {popularity}
+            </Typography>
+
+            <hr color="secondary" />
+
+            <Typography variant="subtitle1" mb={1}>
+              Relase Date: {release_date}
+            </Typography>
+
+            <hr color="secondary" />
+
+            <Typography variant="subtitle1" mb={1}>
+              Rate: {vote_average}
+            </Typography>
+
+            <hr color="secondary" />
+
+            <Typography variant="subtitle1" mb={1}>
+              Total Vote: {vote_count}
+            </Typography>
+
+            <hr color="secondary" />
+
+            {homepage && (
+              <>
+                <Typography variant="subtitle1">
+                  Home Page:
+                  <a
+                    href={homepage}
+                    style={{
+                      textDecoration: "none",
+                      color: "secondary",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {" "}
+                    Go Site
+                  </a>
+                </Typography>
+                <hr color="secondary" />
+              </>
+            )}
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              size="small"
+              variant="contained"
+              color="secondary"
+              onClick={() => navigate(-1)}
+              sx={{ width: "80px" }}
+            >
+              Go Back
+            </Button>
+          </Box>
+        </Paper>
+      )}
     </div>
   );
 };

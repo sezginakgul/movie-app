@@ -16,9 +16,9 @@ export default function ButtonAppBar() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="secondary">
-        <Toolbar className="navbar">
+    <AppBar position="static" color="secondary">
+      <Toolbar className="navbar">
+        <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
           <VideocamIcon
             onClick={() => navigate("/")}
             fontSize="large"
@@ -28,13 +28,20 @@ export default function ButtonAppBar() {
             onClick={() => navigate("/")}
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1 }}
+            sx={{ display: { xs: "none", sm: "inline-block" } }}
             className="title"
           >
             Movie App
           </Typography>
+        </Box>
+
+        <Box>
           {currentUser && (
-            <Button color="inherit" type="text">
+            <Button
+              color="inherit"
+              type="text"
+              sx={{ display: { xs: "none", sm: "inline-block" } }}
+            >
               {currentUser?.displayName}
             </Button>
           )}
@@ -58,8 +65,8 @@ export default function ButtonAppBar() {
           <IconButton sx={{ marginLeft: "1rem" }}>
             <Avatar alt="Remy Sharp" src={currentUser?.photoURL} />
           </IconButton>
-        </Toolbar>
-      </AppBar>
-    </Box>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import MovieCard from "../components/MovieCard";
 import { AuthContext } from "../context/AuthContextProvider";
+import MovieCard from "../components/MovieCard";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import { toastWarnNotify } from "../helpers/ToastNotify";
 
 const API_KEY = process.env.REACT_APP_TMDB_KEY;
@@ -43,53 +44,55 @@ const Main = () => {
   };
 
   return (
-    <div className="main">
-      <div className="mains">
-        <Box
-          sx={{
-            borderTop: "4px solid green",
-
-            backgroundColor: "#ED6C02",
-            opacity: "0.8",
-            display: "flex",
-            justifyContent: "center",
-            paddingY: "0.5rem",
-          }}
-        >
-          <TextField
-            className="searchBtn"
-            id="outlined-basic"
-            label="Search"
-            variant="outlined"
-            sx={{ marginX: "1rem", color: "#eee" }}
-            color="success"
-            onChange={(e) => setSearchTerm(e.target.value)}
-            value={searchTerm}
-          />
-          <Button variant="contained" color="success" onClick={handleSubmit}>
-            Search
-          </Button>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            flexWrap: "wrap",
-            padding: "1rem",
-          }}
-        >
-          {loading ? (
-            <div
-              className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600 mt-52"
-              role="status"
-            >
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          ) : (
-            movies.map((movie) => <MovieCard key={movie.id} {...movie} />)
-          )}
-        </Box>
-      </div>
+    <div className="mains">
+      <Box
+        sx={{
+          borderTop: "4px solid green",
+          backgroundColor: "#ED6C02",
+          opacity: "0.8",
+          display: "flex",
+          justifyContent: "center",
+          padding: "0.5rem",
+        }}
+      >
+        <TextField
+          className="searchBtn"
+          id="outlined-basic"
+          label="Search"
+          variant="outlined"
+          sx={{ marginRight: "1rem" }}
+          color="success"
+          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTerm}
+        />
+        <Button variant="contained" color="success" onClick={handleSubmit}>
+          Search
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          gap: "2rem",
+          flexWrap: "wrap",
+          padding: "1rem",
+        }}
+      >
+        {loading ? (
+          <Box
+            sx={{
+              width: "100vw",
+              height: "82.1vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <CircularProgress color="warning" size={70} />
+          </Box>
+        ) : (
+          movies.map((movie) => <MovieCard key={movie.id} {...movie} />)
+        )}
+      </Box>
     </div>
   );
 };
