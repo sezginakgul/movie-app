@@ -51,7 +51,7 @@ movie-app (folder)
 ### Screenshot
 
 <p align="center">
-<a href="https://movie-app-sezginakgul.vercel.app/"><img src="movie.gif" alt="screenshot" width="100%"></a>
+<a href="https://movie-app-sezginakgul.vercel.app/"><img src="movieapp.gif" alt="screenshot" width="100%"></a>
 </p>
 
 
