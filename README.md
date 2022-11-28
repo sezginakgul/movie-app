@@ -71,4 +71,5 @@ movie-app (folder)
 - Context API
 - Axios
 - React Router
+- React Toastify
 - Responsive Design
